@@ -1,0 +1,21 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "BUILD",
+			"type": "shell",
+			"command": "docker rmi ${workspaceFolderBasename} 2>$null; docker build -t ${workspaceFolderBasename} .; docker image prune -f",
+			"group": "build",
+			"problemMatcher": []
+		},
+		{
+			"label": "RUN",
+			"type": "shell",
+			"command": "docker stop ${workspaceFolderBasename} 2>$null; docker rm -f ${workspaceFolderBasename} 2>$null; docker run --name ${workspaceFolderBasename} --env-file .env -p 8080:8080 ${workspaceFolderBasename}",
+			"group": "none",
+			"dependsOn": ["BUILD"],
+			"isBackground": true,
+			"problemMatcher": []
+		}
+	]
+}
